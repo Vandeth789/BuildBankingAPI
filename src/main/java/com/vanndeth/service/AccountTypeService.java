@@ -3,6 +3,8 @@ package com.vanndeth.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+
 import com.vanndeth.entity.AccountType;
 
 public interface AccountTypeService {
@@ -10,5 +12,5 @@ public interface AccountTypeService {
 	AccountType getById(String id);
 	List<AccountType> get();
 	AccountType update(String id, AccountType accountTypeUpdate);
-	List<AccountType> gets(Map<String, String> params);
+	Page<AccountType> gets(Map<String, String> params);
 }

@@ -3,12 +3,15 @@ package com.vanndeth.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.vanndeth.account.repo.AccountTypeRepo;
 import com.vanndeth.entity.AccountType;
 import com.vanndeth.exception.ResourceNotFoundException;
 import com.vanndeth.service.AccountTypeService;
+import com.vanndeth.service.utils.PageUtil;
 import com.vanndeth.specification.AccountTypeFilter;
 import com.vanndeth.specification.AccountTypeSpec;
 
@@ -46,20 +49,24 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	}
 
 	@Override
-	public List<AccountType> gets(Map<String, String> params) {
+	public Page<AccountType> gets(Map<String, String> params) {
 		AccountTypeFilter filter = new AccountTypeFilter();
-		if(params.containsKey("accountTypesCode")) {
-			String code = params.get("accountTypesCode");
-			filter.setAccountTypesCode(code);
+		
+		int pageLimit = PageUtil.DEFAULT_PAGE_LIMIT;
+		if(params.containsKey(PageUtil.PAGE_LIMIT)) {
+			pageLimit = Integer.parseInt(params.get(PageUtil.PAGE_LIMIT));
 		}
 		
-		if(params.containsKey("accountTypesDescription")) {
-			String desc = params.get("accountTypesDescription");
-			filter.setAccountTypesDescription(desc);
+		int pageNumber = PageUtil.DEFAULT_PAGE_NUMBER;
+		if(params.containsKey(PageUtil.PAGE_NUMBER)) {
+			pageNumber = Integer.parseInt(params.get(PageUtil.PAGE_NUMBER));
 		}
+		
 		AccountTypeSpec spec = new AccountTypeSpec(filter);
-		List<AccountType> accountTypes = accountTypeRepo.findAll(spec);
-		return accountTypes;
+		Pageable pageable = PageUtil.getPageable(pageNumber, pageLimit);
+		Page<AccountType> page = accountTypeRepo.findAll(spec, pageable);
+		
+		return page;
 	}
 
 }

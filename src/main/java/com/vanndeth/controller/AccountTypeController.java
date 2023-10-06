@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vanndeth.dto.AccountTypeDTO;
+import com.vanndeth.dto.PageDTO;
 import com.vanndeth.entity.AccountType;
 import com.vanndeth.mapper.AccountTypeMapper;
 import com.vanndeth.service.AccountTypeService;
@@ -39,13 +41,13 @@ public class AccountTypeController {
 		return ResponseEntity.ok(accountTypeId);
 	}
 
-//	@GetMapping("/")
-//	public ResponseEntity<?> getAllAccountTypes() {
-//		List<AccountTypeDTO> accountTypeDTO = accountTypeService.get().stream()
-//				.map(accountType -> AccountTypeMapper.INSTANCE.toAccountTypeDTO(accountType))
-//				.collect(Collectors.toList());
-//		return ResponseEntity.ok(accountTypeDTO);
-//	}
+	@GetMapping("/")
+	public ResponseEntity<?> getAllAccountTypes() {
+		List<AccountTypeDTO> accountTypeDTO = accountTypeService.get().stream()
+				.map(accountType -> AccountTypeMapper.INSTANCE.toAccountTypeDTO(accountType))
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(accountTypeDTO);
+	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateAccountType(@PathVariable("id") String id,
@@ -57,11 +59,8 @@ public class AccountTypeController {
 
 	@GetMapping
 	public ResponseEntity<?> gets(@RequestParam Map<String, String> params) {
-		List<AccountType> accountTypes = accountTypeService.gets(params);
-		List<AccountTypeDTO> accountTypesDTO = accountTypes
-				.stream()
-				.map(accountType -> AccountTypeMapper.INSTANCE.toAccountTypeDTO(accountType))
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(accountTypesDTO);
+		Page<AccountType> page = accountTypeService.gets(params);
+		PageDTO pageDTO = new PageDTO(page);
+		return ResponseEntity.ok(pageDTO);
 	}
 }

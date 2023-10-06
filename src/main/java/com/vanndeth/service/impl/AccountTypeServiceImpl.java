@@ -1,15 +1,16 @@
 package com.vanndeth.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.vanndeth.account.repo.AccountTypeRepo;
 import com.vanndeth.entity.AccountType;
-import com.vanndeth.exception.ApiException;
 import com.vanndeth.exception.ResourceNotFoundException;
 import com.vanndeth.service.AccountTypeService;
+import com.vanndeth.specification.AccountTypeFilter;
+import com.vanndeth.specification.AccountTypeSpec;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +43,23 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 //		accountType.setAccountTypesCode(accountTypeUpdate.getAccountTypesCode());
 		accountType.setAccountTypesDescription(accountTypeUpdate.getAccountTypesDescription());
 		return accountTypeRepo.save(accountType);
+	}
+
+	@Override
+	public List<AccountType> gets(Map<String, String> params) {
+		AccountTypeFilter filter = new AccountTypeFilter();
+		if(params.containsKey("accountTypesCode")) {
+			String code = params.get("accountTypesCode");
+			filter.setAccountTypesCode(code);
+		}
+		
+		if(params.containsKey("accountTypesDescription")) {
+			String desc = params.get("accountTypesDescription");
+			filter.setAccountTypesDescription(desc);
+		}
+		AccountTypeSpec spec = new AccountTypeSpec(filter);
+		List<AccountType> accountTypes = accountTypeRepo.findAll(spec);
+		return accountTypes;
 	}
 
 }

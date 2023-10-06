@@ -46,4 +46,11 @@ public class AccountServiceImpl implements AccountService{
 		return accounts;
 	}
 
+
+	@Override
+	public Account update(Long id, Account accountUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

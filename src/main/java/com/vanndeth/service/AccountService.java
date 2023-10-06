@@ -7,4 +7,5 @@ public interface AccountService {
 	public Account create(Account account);
 	public Account getById(Long id);
 	public List<Account> get();
+	public Account update(Long id, Account accountUpdate);
 }

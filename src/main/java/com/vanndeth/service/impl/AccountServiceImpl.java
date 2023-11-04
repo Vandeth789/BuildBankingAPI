@@ -53,4 +53,9 @@ public class AccountServiceImpl implements AccountService{
 		return null;
 	}
 
+	@Override
+	public void delete(Long id) {
+		accountRepo.deleteById(id);
+	}
+
 }

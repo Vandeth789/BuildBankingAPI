@@ -8,7 +8,6 @@ import com.vanndeth.dto.AccountDTO;
 import com.vanndeth.entity.Account;
 import com.vanndeth.service.AccountTypeService;
 import com.vanndeth.service.CustomerService;
-
 @Mapper(componentModel = "spring", uses = {AccountTypeService.class, CustomerService.class})
 public interface AccountMapper {
 	

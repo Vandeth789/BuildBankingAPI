@@ -15,6 +15,7 @@ import com.vanndeth.entity.Customer;
 import com.vanndeth.mapper.CustomerMapper;
 import com.vanndeth.service.CustomerService;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/customers")
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomerController {
 	private final CustomerService customerService;
 	
+	@RolesAllowed("ADMIN")
 	@PostMapping("/")
 	public ResponseEntity<?> createCustomer(@RequestBody CustomerDTO customerDTO) {
 		Customer customer = CustomerMapper.INSTANCE.toCustomer(customerDTO);

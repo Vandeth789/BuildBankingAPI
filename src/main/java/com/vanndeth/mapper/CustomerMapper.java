@@ -10,13 +10,14 @@ import com.vanndeth.entity.CustomerType;
 import com.vanndeth.service.CustomerService;
 import com.vanndeth.service.CustomerTypeService;
 
-@Mapper(componentModel = "spring", uses = {CustomerTypeService.class})
+@Mapper(componentModel = "spring", uses = {CustomerTypeService.class, CustomerService.class})
 public interface CustomerMapper {
 
 	CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 	
 	@Mapping(target = "customersId", ignore = true)
 	Customer toCustomer(CustomerDTO customerDTO);
+	
 	
 	/*
 	default CustomerType toCustomerType(String customerTypesCode) {

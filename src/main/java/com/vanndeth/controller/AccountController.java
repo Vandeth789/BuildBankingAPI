@@ -3,9 +3,12 @@ package com.vanndeth.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,7 @@ public class AccountController {
 	private final AccountService accountService;
 	private final AccountMapper accountMapper;
 
+	@PreAuthorize("hasAuthority('account:write')")
 	@PostMapping("/")
 	public ResponseEntity<?> createAccount(@RequestBody AccountDTO accountDTO) {
 		Account account = accountMapper.toAccount(accountDTO);
@@ -42,4 +46,16 @@ public class AccountController {
 		List<Account> accounts = accountService.get();
 		return ResponseEntity.ok(accounts);
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateAccountById(@PathVariable("id") Long id, @RequestBody Account account){
+		Account accountUpdated = accountService.update(id, account);
+		return ResponseEntity.ok(accountUpdated);
+	}
+	
+	@DeleteMapping("/{id}")
+	public void deleteAccountById(@PathVariable("id") Long id) {
+		accountService.delete(id);
+	}
+	
 }

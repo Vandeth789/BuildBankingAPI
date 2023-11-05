@@ -36,7 +36,8 @@ public class AccountServiceImpl implements AccountService{
 //		throw new HttpClientErrorException(HttpStatus.NOT_FOUND, String.format("Account with id %d not found...!", id));
 		*/
 //		return accountRepo.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Account with id %d not found...!".formatted(id)));
-		return accountRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Account", id));
+		return accountRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Account", id));
 	}
 
 

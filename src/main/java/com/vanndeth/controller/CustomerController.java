@@ -23,11 +23,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class CustomerController {
 	private final CustomerService customerService;
+	private final CustomerMapper customerMapper;
 	
 	@RolesAllowed("ADMIN")
 	@PostMapping("/")
 	public ResponseEntity<?> createCustomer(@RequestBody CustomerDTO customerDTO) {
-		Customer customer = CustomerMapper.INSTANCE.toCustomer(customerDTO);
+		Customer customer = customerMapper.toCustomer(customerDTO);
 		customer = customerService.create(customer);
 		return ResponseEntity.ok(customer);
 	}
@@ -37,6 +38,7 @@ public class CustomerController {
 		Customer customerId = customerService.getById(id);
 		return ResponseEntity.ok(customerId);
 	}
+	
 	
 	@GetMapping("/")
 	public ResponseEntity<?> getAllCustomer() {

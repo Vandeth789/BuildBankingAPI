@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.vanndeth.account.repo.CustomerTypeRepo;
 import com.vanndeth.entity.CustomerType;
+import com.vanndeth.exception.ResourceNotFoundException;
 import com.vanndeth.service.CustomerTypeService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class CustomerTypeServiceImpl implements CustomerTypeService {
 
 	@Override
 	public CustomerType getById(String id) {
-		Optional<CustomerType> customerTypeId = customerTypeRepo.findById(id);
-		return customerTypeId.orElse(null);
+		return customerTypeRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Customer Type", id));
 	}
 
 	@Override

@@ -12,5 +12,4 @@ public class AccountDTO {
 	
 	private String accountTypesCode;
 	private Long customersId;
-	
 }

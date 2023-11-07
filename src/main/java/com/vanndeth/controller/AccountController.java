@@ -18,6 +18,7 @@ import com.vanndeth.entity.Account;
 import com.vanndeth.mapper.AccountMapper;
 import com.vanndeth.service.AccountService;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class AccountController {
 	private final AccountService accountService;
 	private final AccountMapper accountMapper;
 
+	// @RolesAllowed("ADMIN") or below
 	@PreAuthorize("hasAuthority('account:write')")
 	@PostMapping("/")
 	public ResponseEntity<?> createAccount(@RequestBody AccountDTO accountDTO) {

@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class AccountServiceImpl implements AccountService{
 	public final AccountRepo accountRepo;
 
-	
 	@Override
 	public Account create(Account account) {
 		return accountRepo.save(account);
